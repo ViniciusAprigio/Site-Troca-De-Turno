@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Passar Turno</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f2f2f2;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    header img {
+      height: 30px;
+    }
+
+    nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      margin: 30px 15px;
+    }
+
+    .form-box {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      width: 700px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    }
+
+    .form-box h2 {
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 28px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .field label {
+      margin-bottom: 6px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      padding: 12px;
+      border-radius: 8px;
+      border: 2px solid #c9793a;
+      outline: none;
+      font-size: 15px;
+      background: white;
+    }
+
+    .full {
+      grid-column: span 2;
+    }
+
+    textarea {
+      resize: none;
+      height: 110px;
+    }
+
+    .file-box {
+      margin-top: 15px;
+      background: #efefef;
+      padding: 14px;
+      border-radius: 10px;
+      text-align: center;
+      cursor: pointer;
+      font-weight: bold;
+      border: 1px solid #ddd;
+    }
+
+    .file-box:hover {
+      background: #e7e7e7;
+    }
+
+    .file-name {
+      margin-top: 8px;
+      font-size: 14px;
+      color: #555;
+      text-align: center;
+    }
+
+    .preview-wrap {
+      margin-top: 12px;
+      text-align: center;
+      display: none;
+    }
+
+    .preview-wrap img {
+      max-width: 220px;
+      max-height: 160px;
+      border-radius: 10px;
+      border: 2px solid #ddd;
+      object-fit: cover;
+    }
+
+    .submit-btn {
+      margin-top: 15px;
+      width: 100%;
+      border: none;
+      background: linear-gradient(145deg, #ffb48b, #ef7c35);
+      padding: 15px;
+      border-radius: 10px;
+      color: #111;
+      font-weight: bold;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .submit-btn:hover {
+      opacity: 0.95;
+    }
+
+    .modal-fundo {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-box {
+      background: white;
+      width: 420px;
+      max-width: 100%;
+      border-radius: 14px;
+      padding: 25px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+
+    .modal-box h3 {
+      margin-bottom: 15px;
+      text-align: center;
+      color: #ff6a00;
+      font-size: 24px;
+    }
+
+    .modal-box p {
+      font-size: 15px;
+      line-height: 1.5;
+      text-align: center;
+      color: #333;
+    }
+
+    .modal-box label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .modal-box input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 2px solid #c9793a;
+      outline: none;
+      margin-bottom: 12px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .modal-btn {
+      flex: 1;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      background: linear-gradient(145deg, #ffb48b, #ef7c35);
+      color: #111;
+    }
+
+    .fechar-btn {
+      background: #ddd;
+    }
+
+    .erro-login {
+      margin-top: 10px;
+      color: red;
+      font-size: 14px;
+      text-align: center;
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .full {
+        grid-column: span 1;
+      }
+
+      nav a {
+        margin-left: 0;
+        margin-right: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="logo.png" alt="Logo">
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a onclick="abrirLoginHistorico()">Histórico</a>
+      <a onclick="abrirContato()">Contato</a>
+      <a onclick="abrirSobre()">Sobre</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="form-box">
+      <h2>PÁGINA DE ANEXO - FORMULÁRIO DE TROCA DE TURNO</h2>
+
+      <form id="turnoForm">
+        <div class="grid">
+          <div class="field">
+            <label for="matricula">Matrícula</label>
+            <input type="text" id="matricula" required>
+          </div>
+
+          <div class="field">
+            <label for="nome">Nome do Operador</label>
+            <input type="text" id="nome" required>
+          </div>
+
+          <div class="field">
+            <label for="op">Número da OP</label>
+            <input type="text" id="op" required>
+          </div>
+
+          <div class="field">
+            <label for="data">Data</label>
+            <input type="date" id="data" required>
+          </div>
+
+          <div class="field">
+            <label for="turno">Turno</label>
+            <select id="turno" required>
+              <option value="">Selecione</option>
+              <option>Manhã (06:00 - 18:00)</option>
+              <option>Noite (18:00 - 06:00)</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="letra">Letra</label>
+            <select id="letra" required>
+              <option value="">Selecione</option>
+              <option>A</option>
+              <option>B</option>
+              <option>C</option>
+              <option>D</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label for="centroTrabalho">Centro de Trabalho</label>
+            <select id="centroTrabalho" required>
+              <option value="">Selecione</option>
+              <option>Pre_mont</option>
+              <option>Sold_Geral</option>
+              <option>Sold_TIG</option>
+              <option>Sold_LTQ - POSICIONADOR 01</option>
+              <option>Sold_LTQ - POSICIONADOR 02</option>
+              <option>Sold_LTQ - POSICIONADOR BARDELLA</option>
+              <option>FORNOS</option>
+              <option>Sold_MLC - POSICIONADOR 1</option>
+              <option>Sold_MLC - POSICIONADOR 2</option>
+              <option>Sold_MLC - POSICIONADOR 3</option>
+              <option>Sold_MLC - POSICIONADOR 4</option>
+              <option>Sold_MLC - POSICIONADOR 5</option>
+              <option>TM 01</option>
+              <option>TM 02</option>
+              <option>TP</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label for="descricao">Descrição da Atividade</label>
+            <textarea id="descricao" required></textarea>
+          </div>
+        </div>
+
+        <input type="file" id="fotoInput" accept="image/*" hidden>
+
+        <div class="file-box" id="fileBox">📎 ANEXAR FOTO</div>
+        <div class="file-name" id="fileName">Nenhuma imagem selecionada</div>
+
+        <div class="preview-wrap" id="previewWrap">
+          <img id="previewImg" alt="Prévia da foto">
+        </div>
+
+        <button type="submit" class="submit-btn">ENVIAR REGISTRO</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-fundo" id="modalSobre">
+    <div class="modal-box">
+      <h3>Sobre</h3>
+      <p>Este site foi criado para melhorar a eficiência da troca de turno e facilitar a visualização das informações para todos.</p>
+      <div class="modal-actions">
+        <button class="modal-btn fechar-btn" onclick="fecharModal('modalSobre')">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-fundo" id="modalContato">
+    <div class="modal-box">
+      <h3>Contato</h3>
+      <p>
+        vinicius.ap.oliveira@arcelormittal.com<br><br>
+        +55 (27) 997281745
+      </p>
+      <div class="modal-actions">
+        <button class="modal-btn fechar-btn" onclick="fecharModal('modalContato')">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-fundo" id="modalHistorico">
+    <div class="modal-box">
+      <h3>Login do Histórico</h3>
+
+      <label for="usuarioHistorico">Usuário</label>
+      <input type="text" id="usuarioHistorico" placeholder="Digite o usuário">
+
+      <label for="senhaHistorico">Senha</label>
+      <input type="password" id="senhaHistorico" placeholder="Digite a senha">
+
+      <div class="erro-login" id="erroLogin">Usuário ou senha incorretos.</div>
+
+      <div class="modal-actions">
+        <button class="modal-btn" onclick="entrarHistorico()">Entrar</button>
+        <button class="modal-btn fechar-btn" onclick="fecharModal('modalHistorico')">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { db, collection, addDoc } from "./firebase-config.js";
+
+    const form = document.getElementById('turnoForm');
+    const fotoInput = document.getElementById('fotoInput');
+    const fileBox = document.getElementById('fileBox');
+    const fileName = document.getElementById('fileName');
+    const previewWrap = document.getElementById('previewWrap');
+    const previewImg = document.getElementById('previewImg');
+
+    let imagemBase64 = '';
+
+    function formatarDataBR(dataISO) {
+      const [ano, mes, dia] = dataISO.split('-');
+      return `${dia}/${mes}/${ano}`;
+    }
+
+    fileBox.addEventListener('click', () => {
+      fotoInput.click();
+    });
+
+    fotoInput.addEventListener('change', function () {
+      const arquivo = this.files[0];
+
+      if (!arquivo) {
+        imagemBase64 = '';
+        fileName.textContent = 'Nenhuma imagem selecionada';
+        previewWrap.style.display = 'none';
+        return;
+      }
+
+      fileName.textContent = arquivo.name;
+
+      const leitor = new FileReader();
+      leitor.onload = function (e) {
+        const img = new Image();
+
+        img.onload = function () {
+          const canvas = document.createElement('canvas');
+          let largura = img.width;
+          let altura = img.height;
+          const maxLargura = 800;
+
+          if (largura > maxLargura) {
+            altura = altura * (maxLargura / largura);
+            largura = maxLargura;
+          }
+
+          canvas.width = largura;
+          canvas.height = altura;
+
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, largura, altura);
+
+          imagemBase64 = canvas.toDataURL('image/jpeg', 0.6);
+          previewImg.src = imagemBase64;
+          previewWrap.style.display = 'block';
+        };
+
+        img.src = e.target.result;
+      };
+
+      leitor.readAsDataURL(arquivo);
+    });
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      try {
+        const dataISO = document.getElementById('data').value;
+
+        const registro = {
+          matricula: document.getElementById('matricula').value.trim(),
+          nome: document.getElementById('nome').value.trim(),
+          op: document.getElementById('op').value.trim(),
+          data: dataISO,
+          dataBR: formatarDataBR(dataISO),
+          turno: document.getElementById('turno').value,
+          letra: document.getElementById('letra').value,
+          centroTrabalho: document.getElementById('centroTrabalho').value,
+          descricao: document.getElementById('descricao').value.trim(),
+          foto: imagemBase64,
+          createdAt: Date.now(),
+          createdBy: "Operador",
+          updatedAt: Date.now(),
+          updatedBy: "Operador"
+        };
+
+        await addDoc(collection(db, "turnos"), registro);
+
+        alert('Registro salvo com sucesso no sistema online.');
+        form.reset();
+        imagemBase64 = '';
+        fileName.textContent = 'Nenhuma imagem selecionada';
+        previewWrap.style.display = 'none';
+        window.location.href = 'visualizar.html';
+      } catch (error) {
+        console.error(error);
+        alert('Erro ao salvar o registro online.');
+      }
+    });
+  </script>
+
+  <script>
+    function abrirSobre() {
+      document.getElementById('modalSobre').style.display = 'flex';
+    }
+
+    function abrirContato() {
+      document.getElementById('modalContato').style.display = 'flex';
+    }
+
+    function abrirLoginHistorico() {
+      document.getElementById('modalHistorico').style.display = 'flex';
+      document.getElementById('erroLogin').style.display = 'none';
+      document.getElementById('usuarioHistorico').value = '';
+      document.getElementById('senhaHistorico').value = '';
+    }
+
+    function fecharModal(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+
+    function entrarHistorico() {
+      const usuario = document.getElementById('usuarioHistorico').value.trim();
+      const senha = document.getElementById('senhaHistorico').value.trim();
+
+      if (usuario === 'Supervisor' && senha === 'Supervisor') {
+        window.location.href = 'historico.html';
+      } else {
+        document.getElementById('erroLogin').style.display = 'block';
+      }
+    }
+
+    window.addEventListener('click', function(event) {
+      const modalSobre = document.getElementById('modalSobre');
+      const modalContato = document.getElementById('modalContato');
+      const modalHistorico = document.getElementById('modalHistorico');
+
+      if (event.target === modalSobre) fecharModal('modalSobre');
+      if (event.target === modalContato) fecharModal('modalContato');
+      if (event.target === modalHistorico) fecharModal('modalHistorico');
+    });
+  </script>
+
+</body>
+</html>
