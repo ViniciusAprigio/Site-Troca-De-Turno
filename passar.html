@@ -3,308 +3,93 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Passar Turno</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
-
-    body {
-      background: #f2f2f2;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 30px;
-      background: white;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    header img {
-      height: 30px;
-    }
-
-    nav a {
-      margin-left: 20px;
-      text-decoration: none;
-      color: #333;
-      font-weight: 500;
-      cursor: pointer;
-    }
-
-    .container {
-      display: flex;
-      justify-content: center;
-      margin: 30px 15px;
-    }
-
-    .form-box {
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      width: 700px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-    }
-
-    .form-box h2 {
-      margin-bottom: 20px;
-      text-align: center;
-      font-size: 28px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .field label {
-      margin-bottom: 6px;
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .field input,
-    .field select,
-    .field textarea {
-      padding: 12px;
-      border-radius: 8px;
-      border: 2px solid #c9793a;
-      outline: none;
-      font-size: 15px;
-      background: white;
-    }
-
-    .full {
-      grid-column: span 2;
-    }
-
-    textarea {
-      resize: none;
-      height: 110px;
-    }
-
-    .file-box {
-      margin-top: 15px;
-      background: #efefef;
-      padding: 14px;
-      border-radius: 10px;
-      text-align: center;
-      cursor: pointer;
-      font-weight: bold;
-      border: 1px solid #ddd;
-    }
-
-    .file-box:hover {
-      background: #e7e7e7;
-    }
-
-    .file-name {
-      margin-top: 8px;
-      font-size: 14px;
-      color: #555;
-      text-align: center;
-    }
-
-    .preview-wrap {
-      margin-top: 12px;
-      text-align: center;
-      display: none;
-    }
-
-    .preview-wrap img {
-      max-width: 220px;
-      max-height: 160px;
-      border-radius: 10px;
-      border: 2px solid #ddd;
-      object-fit: cover;
-    }
-
-    .submit-btn {
-      margin-top: 15px;
-      width: 100%;
-      border: none;
-      background: linear-gradient(145deg, #ffb48b, #ef7c35);
-      padding: 15px;
-      border-radius: 10px;
-      color: #111;
-      font-weight: bold;
-      font-size: 18px;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    }
-
-    .submit-btn:hover {
-      opacity: 0.95;
-    }
-
-    .modal-fundo {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.55);
-      z-index: 999;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .modal-box {
-      background: white;
-      width: 420px;
-      max-width: 100%;
-      border-radius: 14px;
-      padding: 25px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-    }
-
-    .modal-box h3 {
-      margin-bottom: 15px;
-      text-align: center;
-      color: #ff6a00;
-      font-size: 24px;
-    }
-
-    .modal-box p {
-      font-size: 15px;
-      line-height: 1.5;
-      text-align: center;
-      color: #333;
-    }
-
-    .modal-box label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: bold;
-      font-size: 14px;
-    }
-
-    .modal-box input {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: 2px solid #c9793a;
-      outline: none;
-      margin-bottom: 12px;
-    }
-
-    .modal-actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .modal-btn {
-      flex: 1;
-      border: none;
-      padding: 12px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      background: linear-gradient(145deg, #ffb48b, #ef7c35);
-      color: #111;
-    }
-
-    .fechar-btn {
-      background: #ddd;
-    }
-
-    .erro-login {
-      margin-top: 10px;
-      color: red;
-      font-size: 14px;
-      text-align: center;
-      display: none;
-    }
-
-    @media (max-width: 768px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      .full {
-        grid-column: span 1;
-      }
-
-      nav a {
-        margin-left: 0;
-        margin-right: 10px;
-      }
-    }
-  </style>
+  <title>Passar Turno · ArcelorMittal</title>
+  <link rel="icon" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <header>
-    <img src="logo.png" alt="Logo">
-    <nav>
-      <a href="index.html">Inicio</a>
-      <a onclick="abrirLoginHistorico()">Histórico</a>
-      <a onclick="abrirContato()">Contato</a>
-      <a onclick="abrirSobre()">Sobre</a>
-    </nav>
-  </header>
+<header class="topo">
+  <a href="index.html" class="topo-logo"><img src="logo.png" alt="ArcelorMittal"></a>
+  <nav class="topo-nav">
+    <a href="index.html">Início</a>
+    <a href="visualizar.html">Visualizar</a>
+    <a href="passar.html" class="ativo">Passar turno</a>
+    <button type="button" onclick="abrirLoginHistorico()">Histórico</button>
+    <button type="button" onclick="abrirModal('modalContato')">Contato</button>
+    <button type="button" onclick="abrirModal('modalSobre')">Sobre</button>
+  </nav>
+</header>
 
-  <div class="container">
-    <div class="form-box">
-      <h2>PÁGINA DE ANEXO - FORMULÁRIO DE TROCA DE TURNO</h2>
+<main>
+  <section class="page-hero">
+    <div class="page-hero-content">
+      <div class="migalha"><a href="index.html">Início</a> / <span>Passar turno</span></div>
+      <h1>Formulário de <span>Troca de Turno</span></h1>
+      <p>Preencha os dados abaixo para formalizar a passagem do seu turno.</p>
+    </div>
+  </section>
 
-      <form id="turnoForm">
-        <div class="grid">
-          <div class="field">
-            <label for="matricula">Matrícula</label>
-            <input type="text" id="matricula" required>
+  <div class="page-body estreito">
+    <form id="turnoForm" class="painel">
+
+      <div class="secao">
+        <div class="secao-titulo"><span>1</span>Identificação do operador</div>
+        <div class="grade">
+          <div class="campo">
+            <label class="rotulo" for="matricula">Matrícula</label>
+            <input type="text" id="matricula" required autocomplete="off">
           </div>
-
-          <div class="field">
-            <label for="nome">Nome do Operador</label>
-            <input type="text" id="nome" required>
+          <div class="campo">
+            <label class="rotulo" for="nome">Nome do operador</label>
+            <input type="text" id="nome" required autocomplete="name">
           </div>
+        </div>
+      </div>
 
-          <div class="field">
-            <label for="op">Número da OP</label>
-            <input type="text" id="op" required>
+      <div class="secao">
+        <div class="secao-titulo"><span>2</span>Dados do turno</div>
+        <div class="grade">
+          <div class="campo">
+            <label class="rotulo" for="op">Número da OP</label>
+            <input type="text" id="op" required autocomplete="off">
           </div>
-
-          <div class="field">
-            <label for="data">Data</label>
+          <div class="campo">
+            <label class="rotulo" for="data">Data</label>
             <input type="date" id="data" required>
           </div>
 
-          <div class="field">
-            <label for="turno">Turno</label>
-            <select id="turno" required>
-              <option value="">Selecione</option>
-              <option>Manhã (06:00 - 18:00)</option>
-              <option>Noite (18:00 - 06:00)</option>
-            </select>
+          <div class="campo">
+            <span class="rotulo">Turno</span>
+            <div class="segmentado">
+              <input type="radio" name="turno" id="turnoManha" value="Manhã (06:00 - 18:00)" required>
+              <label for="turnoManha">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+                Manhã <small>06–18h</small>
+              </label>
+              <input type="radio" name="turno" id="turnoNoite" value="Noite (18:00 - 06:00)">
+              <label for="turnoNoite">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                Noite <small>18–06h</small>
+              </label>
+            </div>
           </div>
 
-          <div class="field">
-            <label for="letra">Letra</label>
-            <select id="letra" required>
-              <option value="">Selecione</option>
-              <option>A</option>
-              <option>B</option>
-              <option>C</option>
-              <option>D</option>
-            </select>
+          <div class="campo">
+            <span class="rotulo">Letra</span>
+            <div class="segmentado">
+              <input type="radio" name="letra" id="letraA" value="A" required><label for="letraA">A</label>
+              <input type="radio" name="letra" id="letraB" value="B"><label for="letraB">B</label>
+              <input type="radio" name="letra" id="letraC" value="C"><label for="letraC">C</label>
+              <input type="radio" name="letra" id="letraD" value="D"><label for="letraD">D</label>
+            </div>
           </div>
 
-          <div class="field full">
-            <label for="centroTrabalho">Centro de Trabalho</label>
+          <div class="campo inteiro">
+            <label class="rotulo" for="centroTrabalho">Centro de trabalho</label>
             <select id="centroTrabalho" required>
               <option value="">Selecione</option>
               <option>Pre_mont</option>
@@ -324,213 +109,182 @@
               <option>TP</option>
             </select>
           </div>
-
-          <div class="field full">
-            <label for="descricao">Descrição da Atividade</label>
-            <textarea id="descricao" required></textarea>
-          </div>
         </div>
+      </div>
+
+      <div class="secao">
+        <div class="secao-titulo"><span>3</span>Atividade</div>
+        <div class="campo">
+          <label class="rotulo" for="descricao">Descrição da atividade</label>
+          <textarea id="descricao" required placeholder="Descreva o que foi feito, pendências e pontos de atenção para o próximo turno."></textarea>
+          <div class="contador" id="contador">0 caracteres</div>
+        </div>
+      </div>
+
+      <div class="secao">
+        <div class="secao-titulo"><span>4</span>Foto <small style="font-weight:400;color:var(--texto-suave)">(opcional)</small></div>
 
         <input type="file" id="fotoInput" accept="image/*" hidden>
 
-        <div class="file-box" id="fileBox">📎 ANEXAR FOTO</div>
-        <div class="file-name" id="fileName">Nenhuma imagem selecionada</div>
-
-        <div class="preview-wrap" id="previewWrap">
-          <img id="previewImg" alt="Prévia da foto">
+        <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Anexar foto">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          <strong>Toque para tirar ou escolher uma foto</strong>
+          <span>ou arraste a imagem para cá</span>
         </div>
 
-        <button type="submit" class="submit-btn">ENVIAR REGISTRO</button>
-      </form>
-    </div>
-  </div>
-
-  <div class="modal-fundo" id="modalSobre">
-    <div class="modal-box">
-      <h3>Sobre</h3>
-      <p>Este site foi criado para melhorar a eficiência da troca de turno e facilitar a visualização das informações para todos.</p>
-      <div class="modal-actions">
-        <button class="modal-btn fechar-btn" onclick="fecharModal('modalSobre')">Fechar</button>
+        <div class="preview" id="preview">
+          <img id="previewImg" alt="Prévia da foto">
+          <div class="preview-info">
+            <strong id="fileName"></strong>
+            <span>Imagem otimizada para envio</span>
+          </div>
+          <button type="button" class="btn-sm vermelho" id="removerFoto">Remover</button>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <div class="modal-fundo" id="modalContato">
-    <div class="modal-box">
-      <h3>Contato</h3>
-      <p>
-        vinicius.ap.oliveira@arcelormittal.com<br><br>
-        +55 (27) 997281745
-      </p>
-      <div class="modal-actions">
-        <button class="modal-btn fechar-btn" onclick="fecharModal('modalContato')">Fechar</button>
+      <div class="form-rodape">
+        <a href="index.html" class="btn btn-sec">Cancelar</a>
+        <button type="submit" class="btn btn-grande" id="btnEnviar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          Enviar registro
+        </button>
       </div>
-    </div>
+    </form>
   </div>
+</main>
 
-  <div class="modal-fundo" id="modalHistorico">
-    <div class="modal-box">
-      <h3>Login do Histórico</h3>
+<footer class="rodape">
+  <img src="logo.png" alt="ArcelorMittal">
+  <span>© <span data-ano>2026</span> ArcelorMittal · Sistema de Troca de Turno</span>
+</footer>
 
-      <label for="usuarioHistorico">Usuário</label>
-      <input type="text" id="usuarioHistorico" placeholder="Digite o usuário">
+<script src="ui.js"></script>
+<script type="module">
+  import { db, collection, addDoc } from "./firebase-config.js";
 
-      <label for="senhaHistorico">Senha</label>
-      <input type="password" id="senhaHistorico" placeholder="Digite a senha">
+  const $ = id => document.getElementById(id);
+  const form = $('turnoForm');
+  const fotoInput = $('fotoInput');
+  const dropzone = $('dropzone');
+  const preview = $('preview');
+  const btnEnviar = $('btnEnviar');
 
-      <div class="erro-login" id="erroLogin">Usuário ou senha incorretos.</div>
+  let imagemBase64 = '';
 
-      <div class="modal-actions">
-        <button class="modal-btn" onclick="entrarHistorico()">Entrar</button>
-        <button class="modal-btn fechar-btn" onclick="fecharModal('modalHistorico')">Fechar</button>
-      </div>
-    </div>
-  </div>
+  /* Valores iniciais: data de hoje e turno pelo horário atual */
+  function preencherPadroes() {
+    $('data').value = dataHojeISO();
+    const hora = new Date().getHours();
+    $(hora >= 6 && hora < 18 ? 'turnoManha' : 'turnoNoite').checked = true;
+    $('contador').textContent = '0 caracteres';
+  }
+  preencherPadroes();
 
-  <script type="module">
-    import { db, collection, addDoc } from "./firebase-config.js";
+  $('descricao').addEventListener('input', e => {
+    const n = e.target.value.length;
+    $('contador').textContent = `${n} caractere${n === 1 ? '' : 's'}`;
+  });
 
-    const form = document.getElementById('turnoForm');
-    const fotoInput = document.getElementById('fotoInput');
-    const fileBox = document.getElementById('fileBox');
-    const fileName = document.getElementById('fileName');
-    const previewWrap = document.getElementById('previewWrap');
-    const previewImg = document.getElementById('previewImg');
+  /* ---------- Foto ---------- */
+  function limparFoto() {
+    imagemBase64 = '';
+    fotoInput.value = '';
+    preview.classList.remove('visivel');
+    dropzone.style.display = '';
+  }
 
-    let imagemBase64 = '';
-
-    function formatarDataBR(dataISO) {
-      const [ano, mes, dia] = dataISO.split('-');
-      return `${dia}/${mes}/${ano}`;
+  function processarArquivo(arquivo) {
+    if (!arquivo) return limparFoto();
+    if (!arquivo.type.startsWith('image/')) {
+      toast('Selecione um arquivo de imagem.', 'erro');
+      return;
     }
 
-    fileBox.addEventListener('click', () => {
-      fotoInput.click();
-    });
+    const leitor = new FileReader();
+    leitor.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        const maxLargura = 800;
+        let largura = img.width;
+        let altura = img.height;
 
-    fotoInput.addEventListener('change', function () {
-      const arquivo = this.files[0];
+        if (largura > maxLargura) {
+          altura = altura * (maxLargura / largura);
+          largura = maxLargura;
+        }
 
-      if (!arquivo) {
-        imagemBase64 = '';
-        fileName.textContent = 'Nenhuma imagem selecionada';
-        previewWrap.style.display = 'none';
-        return;
-      }
+        const canvas = document.createElement('canvas');
+        canvas.width = largura;
+        canvas.height = altura;
+        canvas.getContext('2d').drawImage(img, 0, 0, largura, altura);
 
-      fileName.textContent = arquivo.name;
+        imagemBase64 = canvas.toDataURL('image/jpeg', 0.6);
+        $('previewImg').src = imagemBase64;
+        $('fileName').textContent = arquivo.name;
+        preview.classList.add('visivel');
+        dropzone.style.display = 'none';
+      };
+      img.src = e.target.result;
+    };
+    leitor.readAsDataURL(arquivo);
+  }
 
-      const leitor = new FileReader();
-      leitor.onload = function (e) {
-        const img = new Image();
+  dropzone.addEventListener('click', () => fotoInput.click());
+  dropzone.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fotoInput.click(); }
+  });
+  fotoInput.addEventListener('change', () => processarArquivo(fotoInput.files[0]));
+  $('removerFoto').addEventListener('click', limparFoto);
 
-        img.onload = function () {
-          const canvas = document.createElement('canvas');
-          let largura = img.width;
-          let altura = img.height;
-          const maxLargura = 800;
+  ['dragenter', 'dragover'].forEach(ev => dropzone.addEventListener(ev, e => {
+    e.preventDefault();
+    dropzone.classList.add('arrastando');
+  }));
+  ['dragleave', 'drop'].forEach(ev => dropzone.addEventListener(ev, e => {
+    e.preventDefault();
+    dropzone.classList.remove('arrastando');
+  }));
+  dropzone.addEventListener('drop', e => processarArquivo(e.dataTransfer.files[0]));
 
-          if (largura > maxLargura) {
-            altura = altura * (maxLargura / largura);
-            largura = maxLargura;
-          }
+  /* ---------- Envio ---------- */
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    carregando(btnEnviar, true);
 
-          canvas.width = largura;
-          canvas.height = altura;
+    try {
+      const dataISO = $('data').value;
+      const agora = Date.now();
 
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, largura, altura);
-
-          imagemBase64 = canvas.toDataURL('image/jpeg', 0.6);
-          previewImg.src = imagemBase64;
-          previewWrap.style.display = 'block';
-        };
-
-        img.src = e.target.result;
+      const registro = {
+        matricula: $('matricula').value.trim(),
+        nome: $('nome').value.trim(),
+        op: $('op').value.trim(),
+        data: dataISO,
+        dataBR: formatarDataBR(dataISO),
+        turno: form.querySelector('input[name="turno"]:checked').value,
+        letra: form.querySelector('input[name="letra"]:checked').value,
+        centroTrabalho: $('centroTrabalho').value,
+        descricao: $('descricao').value.trim(),
+        foto: imagemBase64,
+        createdAt: agora,
+        createdBy: "Operador",
+        updatedAt: agora,
+        updatedBy: "Operador"
       };
 
-      leitor.readAsDataURL(arquivo);
-    });
+      await addDoc(collection(db, "turnos"), registro);
 
-    form.addEventListener('submit', async function (e) {
-      e.preventDefault();
-
-      try {
-        const dataISO = document.getElementById('data').value;
-
-        const registro = {
-          matricula: document.getElementById('matricula').value.trim(),
-          nome: document.getElementById('nome').value.trim(),
-          op: document.getElementById('op').value.trim(),
-          data: dataISO,
-          dataBR: formatarDataBR(dataISO),
-          turno: document.getElementById('turno').value,
-          letra: document.getElementById('letra').value,
-          centroTrabalho: document.getElementById('centroTrabalho').value,
-          descricao: document.getElementById('descricao').value.trim(),
-          foto: imagemBase64,
-          createdAt: Date.now(),
-          createdBy: "Operador",
-          updatedAt: Date.now(),
-          updatedBy: "Operador"
-        };
-
-        await addDoc(collection(db, "turnos"), registro);
-
-        alert('Registro salvo com sucesso no sistema online.');
-        form.reset();
-        imagemBase64 = '';
-        fileName.textContent = 'Nenhuma imagem selecionada';
-        previewWrap.style.display = 'none';
-        window.location.href = 'visualizar.html';
-      } catch (error) {
-        console.error(error);
-        alert('Erro ao salvar o registro online.');
-      }
-    });
-  </script>
-
-  <script>
-    function abrirSobre() {
-      document.getElementById('modalSobre').style.display = 'flex';
+      toast('Registro salvo com sucesso!');
+      form.reset();
+      limparFoto();
+      preencherPadroes();
+      setTimeout(() => { window.location.href = 'visualizar.html'; }, 1200);
+    } catch (error) {
+      console.error(error);
+      toast('Erro ao salvar o registro. Verifique a conexão e tente novamente.', 'erro');
+      carregando(btnEnviar, false);
     }
-
-    function abrirContato() {
-      document.getElementById('modalContato').style.display = 'flex';
-    }
-
-    function abrirLoginHistorico() {
-      document.getElementById('modalHistorico').style.display = 'flex';
-      document.getElementById('erroLogin').style.display = 'none';
-      document.getElementById('usuarioHistorico').value = '';
-      document.getElementById('senhaHistorico').value = '';
-    }
-
-    function fecharModal(id) {
-      document.getElementById(id).style.display = 'none';
-    }
-
-    function entrarHistorico() {
-      const usuario = document.getElementById('usuarioHistorico').value.trim();
-      const senha = document.getElementById('senhaHistorico').value.trim();
-
-      if (usuario === 'Supervisor' && senha === 'Supervisor') {
-        window.location.href = 'historico.html';
-      } else {
-        document.getElementById('erroLogin').style.display = 'block';
-      }
-    }
-
-    window.addEventListener('click', function(event) {
-      const modalSobre = document.getElementById('modalSobre');
-      const modalContato = document.getElementById('modalContato');
-      const modalHistorico = document.getElementById('modalHistorico');
-
-      if (event.target === modalSobre) fecharModal('modalSobre');
-      if (event.target === modalContato) fecharModal('modalContato');
-      if (event.target === modalHistorico) fecharModal('modalHistorico');
-    });
-  </script>
-
+  });
+</script>
 </body>
 </html>

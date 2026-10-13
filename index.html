@@ -3,343 +3,95 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistema de Troca de Turno</title>
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
-
-    body {
-  background-color: #f4f4f4;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 30px;
-      background: white;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    nav a {
-      margin-left: 20px;
-      text-decoration: none;
-      color: #333;
-      font-weight: 500;
-      cursor: pointer;
-    }
-
-    .hero {
-      background: url('fabrica.png') center/cover no-repeat;
-      height: 40vh;
-      min-height: 250px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: white;
-      position: relative;
-    }
-
-    .hero::after {
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.5);
-      top: 0;
-      left: 0;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      padding: 0 20px;
-    }
-
-    .hero h2 {
-      font-size: 26px;
-      margin-bottom: 10px;
-    }
-
-    .hero p {
-      font-size: 14px;
-    }
-
-    .buttons {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 20px;
-      flex-wrap: wrap;
-      padding: 0 15px;
-    }
-
-    .card {
-      background: linear-gradient(145deg, #ffa366, #ff6a00);
-      padding: 20px;
-      border-radius: 12px;
-      width: 250px;
-      color: white;
-      box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-      cursor: pointer;
-      transition: 0.3s;
-      text-align: center;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-    }
-
-    .content {
-  padding: 60px 30px; /* aumentei o espaço */
-  flex: 1;
-}
-
-    .content h3 {
-      margin-bottom: 10px;
-    }
-
-    .updates {
-      margin-top: 15px;
-    }
-
-    .updates ul {
-      padding-left: 20px;
-      margin-top: 8px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 15px;
-      background: #ddd;
-      margin-top: 20px;
-      font-size: 12px;
-    }
-
-    .modal-fundo {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.55);
-      z-index: 999;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .modal-box {
-      background: white;
-      width: 420px;
-      max-width: 100%;
-      border-radius: 14px;
-      padding: 25px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-    }
-
-    .modal-box h3 {
-      margin-bottom: 15px;
-      text-align: center;
-      color: #ff6a00;
-      font-size: 24px;
-    }
-
-    .modal-box p {
-      font-size: 15px;
-      line-height: 1.5;
-      text-align: center;
-      color: #333;
-    }
-
-    .modal-box label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: bold;
-      font-size: 14px;
-    }
-
-    .modal-box input {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: 2px solid #c9793a;
-      outline: none;
-      margin-bottom: 12px;
-    }
-
-    .modal-actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .modal-btn {
-      flex: 1;
-      border: none;
-      padding: 12px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      background: linear-gradient(145deg, #ffb48b, #ef7c35);
-      color: #111;
-    }
-
-    .fechar-btn {
-      background: #ddd;
-    }
-
-    .erro-login {
-      margin-top: 10px;
-      color: red;
-      font-size: 14px;
-      text-align: center;
-      display: none;
-    }
-  </style>
+  <title>Sistema de Troca de Turno · ArcelorMittal</title>
+  <link rel="icon" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<header>
-  <img src="logo.png" height="30" alt="Logo">
-  <nav>
-    <a href="index.html">Inicio</a>
-    <a onclick="abrirLoginHistorico()">Histórico</a>
-    <a onclick="abrirContato()">Contato</a>
-    <a onclick="abrirSobre()">Sobre</a>
+<header class="topo">
+  <a href="index.html" class="topo-logo"><img src="logo.png" alt="ArcelorMittal"></a>
+  <nav class="topo-nav">
+    <a href="index.html" class="ativo">Início</a>
+    <a href="visualizar.html">Visualizar</a>
+    <a href="passar.html">Passar turno</a>
+    <button type="button" onclick="abrirLoginHistorico()">Histórico</button>
+    <button type="button" onclick="abrirModal('modalContato')">Contato</button>
+    <button type="button" onclick="abrirModal('modalSobre')">Sobre</button>
   </nav>
 </header>
 
-<section class="hero">
-  <div class="hero-content">
-    <h2>SISTEMA DE TROCA DE TURNO - ARCELORMITTAL</h2>
-    <p>Gerenciamento eficiente de transição de turno e comunicação</p>
+<main>
+  <section class="hero">
+    <div class="hero-content">
+      <span class="selo">ArcelorMittal</span>
+      <h1>Sistema de <span>Troca de Turno</span></h1>
+      <p>Gerenciamento eficiente de transição de turno e comunicação</p>
+    </div>
+  </section>
+
+  <div class="acoes-inicio">
+    <a class="card-acao" href="visualizar.html">
+      <div class="card-icone">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </div>
+      <h3>Visualizar Turno</h3>
+      <p>Verifique o status do turno atual.</p>
+      <span class="seta">Acessar
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </span>
+    </a>
+
+    <a class="card-acao" href="passar.html">
+      <div class="card-icone">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+      </div>
+      <h3>Passar Turno</h3>
+      <p>Inicie a formalização da sua troca de turno.</p>
+      <span class="seta">Acessar
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </span>
+    </a>
   </div>
-</section>
 
-<div class="buttons">
-  <div class="card" onclick="location.href='visualizar.html'">
-    <h3>VISUALIZAR TURNO</h3>
-    <p>Verifique o status do turno atual.</p>
+  <div class="conteudo-inicio">
+    <section class="painel">
+      <div class="sobretitulo">Bem-vindo</div>
+      <h2>Sistema de Troca de Turno ArcelorMittal</h2>
+      <p>Este sistema centralizado ajuda a ArcelorMittal a registrar e monitorar todas as operações e trocas de turno com eficiência.</p>
+
+      <div class="horarios">
+        <div class="horario">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <div><strong>Manhã</strong><span>06:00 – 18:00</span></div>
+        </div>
+        <div class="horario noite">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <div><strong>Noite</strong><span>18:00 – 06:00</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="painel">
+      <div class="sobretitulo">Atualizações recentes</div>
+      <ul class="lista-check">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Registro de turno online</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Visualização dos turnos salvos</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Histórico com edição e exclusão para Supervisor</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Novo visual, adaptado para celular</li>
+      </ul>
+    </section>
   </div>
+</main>
 
-  <div class="card" onclick="location.href='passar.html'">
-    <h3>PASSAR TURNO</h3>
-    <p>Inicie a formalização da sua troca de turno.</p>
-  </div>
-</div>
-
-<section class="content">
-  <h3>Bem-vindo ao Sistema de Troca de Turno ArcelorMittal!</h3>
-  <p>Este sistema centralizado ajuda a ArcelorMittal a registrar e monitorar todas as operações e trocas de turno com eficiência.</p>
-
-  <div class="updates">
-    <h4>Atualizações Recentes</h4>
-    <ul>
-      <li>Registro de turno online;</li>
-      <li>Visualização dos turnos salvos;</li>
-      <li>Histórico com edição e exclusão para Supervisor.</li>
-    </ul>
-  </div>
-</section>
-
-<footer>
-  © 2026 ArcelorMittal
+<footer class="rodape">
+  <img src="logo.png" alt="ArcelorMittal">
+  <span>© <span data-ano>2026</span> ArcelorMittal · Sistema de Troca de Turno</span>
 </footer>
 
-<div class="modal-fundo" id="modalSobre">
-  <div class="modal-box">
-    <h3>Sobre</h3>
-    <p>Este site foi criado para melhorar a eficiência da troca de turno e facilitar a visualização das informações para todos.</p>
-    <div class="modal-actions">
-      <button class="modal-btn fechar-btn" onclick="fecharModal('modalSobre')">Fechar</button>
-    </div>
-  </div>
-</div>
-
-<div class="modal-fundo" id="modalContato">
-  <div class="modal-box">
-    <h3>Contato</h3>
-    <p>
-      vinicius.ap.oliveira@arcelormittal.com<br><br>
-      +55 (27) 997281745
-    </p>
-    <div class="modal-actions">
-      <button class="modal-btn fechar-btn" onclick="fecharModal('modalContato')">Fechar</button>
-    </div>
-  </div>
-</div>
-
-<div class="modal-fundo" id="modalHistorico">
-  <div class="modal-box">
-    <h3>Login do Histórico</h3>
-
-    <label for="usuarioHistorico">Usuário</label>
-    <input type="text" id="usuarioHistorico" placeholder="Digite o usuário">
-
-    <label for="senhaHistorico">Senha</label>
-    <input type="password" id="senhaHistorico" placeholder="Digite a senha">
-
-    <div class="erro-login" id="erroLogin">Usuário ou senha incorretos.</div>
-
-    <div class="modal-actions">
-      <button class="modal-btn" onclick="entrarHistorico()">Entrar</button>
-      <button class="modal-btn fechar-btn" onclick="fecharModal('modalHistorico')">Fechar</button>
-    </div>
-  </div>
-</div>
-
-<script>
-  function abrirSobre() {
-    document.getElementById('modalSobre').style.display = 'flex';
-  }
-
-  function abrirContato() {
-    document.getElementById('modalContato').style.display = 'flex';
-  }
-
-  function abrirLoginHistorico() {
-    document.getElementById('modalHistorico').style.display = 'flex';
-    document.getElementById('erroLogin').style.display = 'none';
-    document.getElementById('usuarioHistorico').value = '';
-    document.getElementById('senhaHistorico').value = '';
-  }
-
-  function fecharModal(id) {
-    document.getElementById(id).style.display = 'none';
-  }
-
-  function entrarHistorico() {
-    const usuario = document.getElementById('usuarioHistorico').value.trim();
-    const senha = document.getElementById('senhaHistorico').value.trim();
-
-    if (usuario === 'Supervisor' && senha === 'Supervisor') {
-      window.location.href = 'historico.html';
-    } else {
-      document.getElementById('erroLogin').style.display = 'block';
-    }
-  }
-
-  window.onclick = function(event) {
-    const modalSobre = document.getElementById('modalSobre');
-    const modalContato = document.getElementById('modalContato');
-    const modalHistorico = document.getElementById('modalHistorico');
-
-    if (event.target === modalSobre) fecharModal('modalSobre');
-    if (event.target === modalContato) fecharModal('modalContato');
-    if (event.target === modalHistorico) fecharModal('modalHistorico');
-  };
-</script>
-
+<script src="ui.js"></script>
 </body>
 </html>

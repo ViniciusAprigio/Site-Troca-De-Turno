@@ -3,848 +3,497 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Histórico de Turnos</title>
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
-
-    body {
-      background: #f4f4f4;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 30px;
-      background: white;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    header img {
-      height: 30px;
-    }
-
-    nav a {
-      margin-left: 20px;
-      text-decoration: none;
-      color: #333;
-      font-weight: 500;
-      cursor: pointer;
-    }
-
-    .title {
-      text-align: center;
-      margin: 30px 15px 20px;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    .status-box {
-      width: 92%;
-      max-width: 1100px;
-      margin: 0 auto 20px;
-      background: white;
-      padding: 18px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-
-    .status-text {
-      font-weight: bold;
-    }
-
-    .filters-box,
-    .audit-box {
-      width: 92%;
-      max-width: 1100px;
-      margin: 0 auto 25px;
-      background: white;
-      padding: 25px;
-      border-radius: 14px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.12);
-    }
-
-    .filters-box h3,
-    .audit-box h3 {
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 22px;
-    }
-
-    .filters-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 15px;
-      align-items: end;
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .field label {
-      margin-bottom: 6px;
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .field input,
-    .field select,
-    .field textarea {
-      padding: 12px;
-      border-radius: 8px;
-      border: 2px solid #c9793a;
-      outline: none;
-      background: white;
-      font-size: 14px;
-    }
-
-    .btn {
-      border: none;
-      padding: 12px 18px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      background: linear-gradient(145deg, #ffb48b, #ef7c35);
-      color: #111;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
-    }
-
-    .btn-cinza {
-      background: #ddd;
-    }
-
-    .section-title {
-      text-align: center;
-      margin: 20px 15px 15px;
-      font-size: 24px;
-      font-weight: bold;
-    }
-
-    .table-wrap {
-      width: 92%;
-      margin: 0 auto 35px;
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    th {
-      background: #dddddd;
-      padding: 12px 10px;
-      border: 1px solid #cfcfcf;
-      font-size: 15px;
-      white-space: nowrap;
-    }
-
-    td {
-      padding: 10px;
-      text-align: center;
-      border: 1px solid #d7d7d7;
-      font-size: 14px;
-    }
-
-    .op-link {
-      color: #d95f0e;
-      font-weight: bold;
-      cursor: pointer;
-      text-decoration: underline;
-    }
-
-    .actions-inline {
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .small-btn {
-      border: none;
-      padding: 8px 10px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      background: #f0f0f0;
-    }
-
-    .small-btn.orange {
-      background: #ffd7c1;
-    }
-
-    .small-btn.red {
-      background: #ffd5d5;
-    }
-
-    .modal-fundo {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.6);
-      z-index: 999;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .modal {
-      background: white;
-      width: 950px;
-      max-width: 100%;
-      max-height: 90vh;
-      overflow-y: auto;
-      border-radius: 14px;
-      padding: 25px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-    }
-
-    .modal h3 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #ef7c35;
-      font-size: 24px;
-    }
-
-    .op-card {
-      background: #f7f7f7;
-      border-radius: 12px;
-      padding: 18px;
-      margin-bottom: 18px;
-    }
-
-    .op-card-header {
-      margin-bottom: 12px;
-      font-weight: bold;
-      color: #ef7c35;
-      font-size: 18px;
-    }
-
-    .op-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .op-item {
-      background: white;
-      border-radius: 10px;
-      padding: 10px;
-      border: 1px solid #e0e0e0;
-      font-size: 14px;
-    }
-
-    .op-item strong {
-      display: block;
-      margin-bottom: 4px;
-      color: #d95f0e;
-    }
-
-    .descricao-box {
-      background: white;
-      border-radius: 10px;
-      padding: 12px;
-      margin-bottom: 12px;
-      border: 1px solid #e0e0e0;
-    }
-
-    .descricao-box strong {
-      display: block;
-      margin-bottom: 6px;
-      color: #d95f0e;
-    }
-
-    .foto-box {
-      text-align: center;
-      margin-top: 10px;
-    }
-
-    .foto-box img {
-      max-width: 100%;
-      max-height: 280px;
-      border-radius: 10px;
-      border: 2px solid #ddd;
-      object-fit: contain;
-    }
-
-    .sem-foto {
-      color: #666;
-      background: white;
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid #e0e0e0;
-      text-align: center;
-    }
-
-    .edit-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .full {
-      grid-column: span 2;
-    }
-
-    @media (max-width: 900px) {
-      .filters-grid,
-      .edit-grid,
-      .op-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .full {
-        grid-column: span 1;
-      }
-    }
-  </style>
+  <title>Histórico de Turnos · ArcelorMittal</title>
+  <link rel="icon" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header>
-  <img src="logo.png" alt="Logo">
-  <nav>
-    <a href="index.html">Inicio</a>
-    <a href="visualizar.html">Visualizar Turno</a>
-    <a href="passar.html">Passar Turno</a>
-    <a onclick="abrirContato()">Contato</a>
-    <a onclick="abrirSobre()">Sobre</a>
+<header class="topo">
+  <a href="index.html" class="topo-logo"><img src="logo.png" alt="ArcelorMittal"></a>
+  <nav class="topo-nav">
+    <a href="index.html">Início</a>
+    <a href="visualizar.html">Visualizar</a>
+    <a href="passar.html">Passar turno</a>
+    <a href="historico.html" class="ativo">Histórico</a>
+    <button type="button" onclick="abrirModal('modalContato')">Contato</button>
+    <button type="button" onclick="abrirModal('modalSobre')">Sobre</button>
   </nav>
 </header>
 
-<div class="title">HISTÓRICO DE TODOS OS TURNOS</div>
-
-<div class="status-box">
-  <div class="status-text" id="statusSupervisor">Supervisor não autenticado</div>
-  <button class="btn" onclick="abrirLoginSupervisor()">LOGIN SUPERVISOR</button>
-</div>
-
-<div class="filters-box">
-  <h3>FILTROS</h3>
-
-  <div class="filters-grid">
-    <div class="field">
-      <label for="filtroData">Data</label>
-      <input type="date" id="filtroData">
+<main>
+  <section class="page-hero">
+    <div class="page-hero-content">
+      <div class="migalha"><a href="index.html">Início</a> / <span>Histórico</span></div>
+      <h1>Histórico de <span>Todos os Turnos</span></h1>
+      <p>Consulte, filtre e gerencie todos os registros de troca de turno.</p>
     </div>
+  </section>
 
-    <div class="field">
-      <label for="filtroLetra">Letra</label>
-      <select id="filtroLetra">
-        <option value="">Todas</option>
-        <option>A</option>
-        <option>B</option>
-        <option>C</option>
-        <option>D</option>
-      </select>
-    </div>
+  <div class="page-body">
 
-    <div class="field">
-      <label for="filtroTurno">Turno</label>
-      <select id="filtroTurno">
-        <option value="">Todos</option>
-        <option>Manhã (06:00 - 18:00)</option>
-        <option>Noite (18:00 - 06:00)</option>
-      </select>
-    </div>
+    <!-- Status do supervisor -->
+    <section class="painel status" id="statusBox">
+      <div class="status-info">
+        <div class="status-icone" id="statusIcone"></div>
+        <div>
+          <strong id="statusTitulo">Modo consulta</strong>
+          <span id="statusTexto">Faça login como supervisor para editar ou excluir registros.</span>
+        </div>
+      </div>
+      <button type="button" class="btn" id="btnSupervisor">Login supervisor</button>
+    </section>
 
-    <button class="btn" onclick="aplicarFiltros()">FILTRAR</button>
+    <!-- Filtros -->
+    <section class="painel">
+      <div class="sobretitulo">Filtros</div>
+      <div class="grade-4">
+        <div class="campo inteiro-mobile">
+          <label class="rotulo" for="filtroBusca">Buscar</label>
+          <div class="busca">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input type="search" id="filtroBusca" placeholder="OP, nome ou matrícula" autocomplete="off">
+          </div>
+        </div>
+        <div class="campo">
+          <label class="rotulo" for="filtroData">Data</label>
+          <input type="date" id="filtroData">
+        </div>
+        <div class="campo">
+          <label class="rotulo" for="filtroLetra">Letra</label>
+          <select id="filtroLetra">
+            <option value="">Todas</option>
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+            <option>D</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label class="rotulo" for="filtroTurno">Turno</label>
+          <select id="filtroTurno">
+            <option value="">Todos</option>
+            <option>Manhã (06:00 - 18:00)</option>
+            <option>Noite (18:00 - 06:00)</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-sec" id="btnLimparFiltros">Limpar</button>
+      </div>
+    </section>
+
+    <!-- Registros -->
+    <section class="tabela-card">
+      <div class="tabela-topo">
+        <h2>Registros encontrados</h2>
+        <span class="contagem" id="contagem">—</span>
+      </div>
+      <div class="tabela-scroll">
+        <table class="tabela-responsiva">
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>OP</th>
+              <th>Matrícula</th>
+              <th>Operador</th>
+              <th>Turno</th>
+              <th>Centro de trab.</th>
+              <th>Editado por</th>
+              <th>Última alteração</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tabelaHistorico"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Auditoria -->
+    <section class="tabela-card">
+      <div class="tabela-topo">
+        <h2>Últimas exclusões</h2>
+        <span class="contagem" style="background:var(--vermelho-suave);color:var(--vermelho)">Auditoria</span>
+      </div>
+      <div class="tabela-scroll">
+        <table class="tabela-responsiva">
+          <thead>
+            <tr>
+              <th>Data da exclusão</th>
+              <th>OP</th>
+              <th>Operador</th>
+              <th>Excluído por</th>
+            </tr>
+          </thead>
+          <tbody id="tabelaExclusoes"></tbody>
+        </table>
+      </div>
+    </section>
   </div>
-</div>
+</main>
 
-<div class="section-title">REGISTROS ENCONTRADOS</div>
+<footer class="rodape">
+  <img src="logo.png" alt="ArcelorMittal">
+  <span>© <span data-ano>2026</span> ArcelorMittal · Sistema de Troca de Turno</span>
+</footer>
 
-<div class="table-wrap">
-  <table>
-    <thead>
-      <tr>
-        <th>Data</th>
-        <th>Número da OP</th>
-        <th>Matrícula</th>
-        <th>Nome do Operador</th>
-        <th>Turno</th>
-        <th>Centro de Trab.</th>
-        <th>Última edição por</th>
-        <th>Última alteração</th>
-        <th>Ações</th>
-      </tr>
-    </thead>
-    <tbody id="tabelaHistorico"></tbody>
-  </table>
-</div>
-
-<div class="audit-box">
-  <h3>ÚLTIMAS EXCLUSÕES</h3>
-  <div class="table-wrap" style="width:100%; margin:0;">
-    <table>
-      <thead>
-        <tr>
-          <th>Data da exclusão</th>
-          <th>OP</th>
-          <th>Operador</th>
-          <th>Excluído por</th>
-        </tr>
-      </thead>
-      <tbody id="tabelaExclusoes"></tbody>
-    </table>
-  </div>
-</div>
-
-<div class="modal-fundo" id="modalOp">
-  <div class="modal">
-    <h3 id="tituloModalOp">DETALHES DA OP</h3>
+<!-- Detalhes -->
+<div class="modal-fundo" id="modalOp" role="dialog" aria-modal="true" aria-labelledby="tituloModalOp">
+  <div class="modal-box largo">
+    <div class="modal-cabecalho">
+      <h3 id="tituloModalOp">Detalhes da OP</h3>
+      <button type="button" class="btn-x" data-fechar aria-label="Fechar"></button>
+    </div>
     <div id="conteudoModalOp"></div>
-    <button class="btn" style="width:100%; margin-top:10px;" onclick="fecharModalOp()">FECHAR</button>
   </div>
 </div>
 
-<div class="modal-fundo" id="modalLoginSupervisor">
-  <div class="modal" style="max-width:500px;">
-    <h3>LOGIN SUPERVISOR</h3>
+<!-- Login supervisor -->
+<div class="modal-fundo" id="modalLoginSupervisor" role="dialog" aria-modal="true" aria-labelledby="tituloLoginSup">
+  <div class="modal-box">
+    <img src="logo.png" alt="ArcelorMittal" class="modal-logo">
+    <h3 class="modal-titulo" id="tituloLoginSup">Login do supervisor</h3>
+    <p class="modal-texto">Libera a edição e a exclusão de registros.</p>
 
-    <div class="field">
-      <label for="usuarioSupervisor">Usuário</label>
-      <input id="usuarioSupervisor" type="text">
-    </div>
-
-    <div class="field">
-      <label for="senhaSupervisor">Senha</label>
-      <input id="senhaSupervisor" type="password">
-    </div>
-
-    <div id="erroSupervisor" style="display:none; color:red; text-align:center; margin-top:10px;">
-      Usuário ou senha inválidos.
-    </div>
-
-    <div style="display:flex; gap:10px; margin-top:15px;">
-      <button class="btn" style="flex:1;" onclick="entrarSupervisor()">ENTRAR</button>
-      <button class="btn btn-cinza" style="flex:1;" onclick="fecharModalHistorico('modalLoginSupervisor')">FECHAR</button>
-    </div>
+    <form id="formLoginSupervisor">
+      <div class="campo">
+        <label class="rotulo" for="usuarioSupervisor">Usuário</label>
+        <input id="usuarioSupervisor" type="text" autocomplete="username">
+      </div>
+      <div class="campo">
+        <label class="rotulo" for="senhaSupervisor">Senha</label>
+        <input id="senhaSupervisor" type="password" autocomplete="current-password">
+      </div>
+      <div class="erro-login" id="erroSupervisor">Usuário ou senha inválidos.</div>
+      <div class="modal-acoes">
+        <button type="button" class="btn btn-sec" data-fechar>Cancelar</button>
+        <button type="submit" class="btn">Entrar</button>
+      </div>
+    </form>
   </div>
 </div>
 
-<div class="modal-fundo" id="modalEditar">
-  <div class="modal" style="max-width:800px;">
-    <h3>EDITAR REGISTRO</h3>
-
-    <div class="edit-grid">
-      <div class="field">
-        <label for="editMatricula">Matrícula</label>
-        <input id="editMatricula" type="text">
-      </div>
-
-      <div class="field">
-        <label for="editNome">Nome do Operador</label>
-        <input id="editNome" type="text">
-      </div>
-
-      <div class="field">
-        <label for="editOp">Número da OP</label>
-        <input id="editOp" type="text">
-      </div>
-
-      <div class="field">
-        <label for="editData">Data</label>
-        <input id="editData" type="date">
-      </div>
-
-      <div class="field">
-        <label for="editTurno">Turno</label>
-        <select id="editTurno">
-          <option>Manhã (06:00 - 18:00)</option>
-          <option>Noite (18:00 - 06:00)</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label for="editLetra">Letra</label>
-        <select id="editLetra">
-          <option>A</option>
-          <option>B</option>
-          <option>C</option>
-          <option>D</option>
-        </select>
-      </div>
-
-      <div class="field full">
-        <label for="editCentro">Centro de Trabalho</label>
-        <select id="editCentro">
-          <option>Pre_mont</option>
-          <option>Sold_Geral</option>
-          <option>Sold_TIG</option>
-          <option>Sold_LTQ - POSICIONADOR 01</option>
-          <option>Sold_LTQ - POSICIONADOR 02</option>
-          <option>Sold_LTQ - POSICIONADOR BARDELLA</option>
-          <option>FORNOS</option>
-          <option>Sold_MLC - POSICIONADOR 1</option>
-          <option>Sold_MLC - POSICIONADOR 2</option>
-          <option>Sold_MLC - POSICIONADOR 3</option>
-          <option>Sold_MLC - POSICIONADOR 4</option>
-          <option>Sold_MLC - POSICIONADOR 5</option>
-          <option>TM 01</option>
-          <option>TM 02</option>
-          <option>TP</option>
-        </select>
-      </div>
-
-      <div class="field full">
-        <label for="editDescricao">Descrição</label>
-        <textarea id="editDescricao" rows="5"></textarea>
-      </div>
+<!-- Editar -->
+<div class="modal-fundo" id="modalEditar" role="dialog" aria-modal="true" aria-labelledby="tituloEditar">
+  <div class="modal-box largo">
+    <div class="modal-cabecalho">
+      <h3 id="tituloEditar">Editar registro</h3>
+      <button type="button" class="btn-x" data-fechar aria-label="Fechar"></button>
     </div>
 
-    <div style="display:flex; gap:10px; margin-top:15px;">
-      <button class="btn" style="flex:1;" onclick="salvarEdicao()">SALVAR</button>
-      <button class="btn btn-cinza" style="flex:1;" onclick="fecharModalHistorico('modalEditar')">CANCELAR</button>
-    </div>
+    <form id="formEditar">
+      <div class="grade">
+        <div class="campo">
+          <label class="rotulo" for="editMatricula">Matrícula</label>
+          <input id="editMatricula" type="text" required>
+        </div>
+        <div class="campo">
+          <label class="rotulo" for="editNome">Nome do operador</label>
+          <input id="editNome" type="text" required>
+        </div>
+        <div class="campo">
+          <label class="rotulo" for="editOp">Número da OP</label>
+          <input id="editOp" type="text" required>
+        </div>
+        <div class="campo">
+          <label class="rotulo" for="editData">Data</label>
+          <input id="editData" type="date" required>
+        </div>
+        <div class="campo">
+          <label class="rotulo" for="editTurno">Turno</label>
+          <select id="editTurno">
+            <option>Manhã (06:00 - 18:00)</option>
+            <option>Noite (18:00 - 06:00)</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label class="rotulo" for="editLetra">Letra</label>
+          <select id="editLetra">
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+            <option>D</option>
+          </select>
+        </div>
+        <div class="campo inteiro">
+          <label class="rotulo" for="editCentro">Centro de trabalho</label>
+          <select id="editCentro">
+            <option>Pre_mont</option>
+            <option>Sold_Geral</option>
+            <option>Sold_TIG</option>
+            <option>Sold_LTQ - POSICIONADOR 01</option>
+            <option>Sold_LTQ - POSICIONADOR 02</option>
+            <option>Sold_LTQ - POSICIONADOR BARDELLA</option>
+            <option>FORNOS</option>
+            <option>Sold_MLC - POSICIONADOR 1</option>
+            <option>Sold_MLC - POSICIONADOR 2</option>
+            <option>Sold_MLC - POSICIONADOR 3</option>
+            <option>Sold_MLC - POSICIONADOR 4</option>
+            <option>Sold_MLC - POSICIONADOR 5</option>
+            <option>TM 01</option>
+            <option>TM 02</option>
+            <option>TP</option>
+          </select>
+        </div>
+        <div class="campo inteiro">
+          <label class="rotulo" for="editDescricao">Descrição</label>
+          <textarea id="editDescricao" rows="5"></textarea>
+        </div>
+      </div>
+
+      <div class="modal-acoes">
+        <button type="button" class="btn btn-sec" data-fechar>Cancelar</button>
+        <button type="submit" class="btn" id="btnSalvarEdicao">Salvar alterações</button>
+      </div>
+    </form>
   </div>
 </div>
 
-<div class="modal-fundo" id="modalSobre">
-  <div class="modal" style="max-width:420px;">
-    <h3>Sobre</h3>
-    <p style="text-align:center;">Este site foi criado para melhorar a eficiência da troca de turno e facilitar a visualização das informações para todos.</p>
-    <button class="btn" style="width:100%; margin-top:15px;" onclick="fecharModalHistorico('modalSobre')">FECHAR</button>
-  </div>
-</div>
-
-<div class="modal-fundo" id="modalContato">
-  <div class="modal" style="max-width:420px;">
-    <h3>Contato</h3>
-    <p style="text-align:center;">
-      vinicius.ap.oliveira@arcelormittal.com<br><br>
-      +55 (27) 997281745
-    </p>
-    <button class="btn" style="width:100%; margin-top:15px;" onclick="fecharModalHistorico('modalContato')">FECHAR</button>
-  </div>
-</div>
-
+<script src="ui.js"></script>
 <script type="module">
   import {
-    db,
-    collection,
-    addDoc,
-    getDocs,
-    doc,
-    updateDoc,
-    deleteDoc,
-    query,
-    orderBy
+    db, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy
   } from "./firebase-config.js";
+
+  const $ = id => document.getElementById(id);
+  const tbody = $('tabelaHistorico');
+
+  const ICONE_CADEADO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
+  const ICONE_ESCUDO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>';
+
+  document.querySelectorAll('.btn-x').forEach(b => { if (!b.innerHTML.trim()) b.innerHTML = ICONES.fechar; });
 
   let registrosCache = [];
   let exclusoesCache = [];
   let supervisorLogado = false;
   let registroEmEdicao = null;
 
-  function formatarDataBR(dataISO) {
-    if (!dataISO || !dataISO.includes('-')) return '';
-    const [ano, mes, dia] = dataISO.split('-');
-    return `${dia}/${mes}/${ano}`;
-  }
-
-  function formatarDataHora(timestamp) {
-    if (!timestamp) return '';
-    return new Date(timestamp).toLocaleString('pt-BR');
-  }
-
+  /* ---------- Carregamento ---------- */
   async function carregarHistorico() {
+    tbody.innerHTML = linhaCarregando(9);
     try {
-      const qTurnos = query(collection(db, "turnos"), orderBy("createdAt", "desc"));
-      const snapshotTurnos = await getDocs(qTurnos);
+      const snapTurnos = await getDocs(query(collection(db, "turnos"), orderBy("createdAt", "desc")));
+      registrosCache = snapTurnos.docs.map(d => ({ id: d.id, ...d.data() }));
 
-      registrosCache = snapshotTurnos.docs.map(d => ({
-        id: d.id,
-        ...d.data()
-      }));
+      const snapExclusoes = await getDocs(query(collection(db, "auditoria_exclusoes"), orderBy("deletedAt", "desc")));
+      exclusoesCache = snapExclusoes.docs.map(d => ({ id: d.id, ...d.data() }));
 
-      const qExclusoes = query(collection(db, "auditoria_exclusoes"), orderBy("deletedAt", "desc"));
-      const snapshotExclusoes = await getDocs(qExclusoes);
-
-      exclusoesCache = snapshotExclusoes.docs.map(d => ({
-        id: d.id,
-        ...d.data()
-      }));
-
-      renderizarTabela(registrosCache);
-      renderizarExclusoes(exclusoesCache);
+      aplicarFiltros();
+      renderizarExclusoes();
     } catch (error) {
       console.error(error);
-      alert('Erro ao carregar histórico online.');
+      tbody.innerHTML = linhaVazia(9, 'Não foi possível carregar o histórico.');
+      toast('Erro ao carregar histórico online.', 'erro');
     }
   }
 
+  /* ---------- Filtros ---------- */
+  function aplicarFiltros() {
+    const busca = $('filtroBusca').value.trim().toLowerCase();
+    const data = $('filtroData').value;
+    const letra = $('filtroLetra').value;
+    const turno = $('filtroTurno').value;
+
+    const lista = registrosCache.filter(r =>
+      (!data || r.data === data) &&
+      (!letra || r.letra === letra) &&
+      (!turno || r.turno === turno) &&
+      (!busca || [r.op, r.nome, r.matricula].some(v => String(v || '').toLowerCase().includes(busca)))
+    );
+
+    renderizarTabela(lista);
+  }
+
+  ['filtroBusca', 'filtroData', 'filtroLetra', 'filtroTurno'].forEach(id => {
+    $(id).addEventListener('input', aplicarFiltros);
+  });
+
+  $('btnLimparFiltros').addEventListener('click', () => {
+    ['filtroBusca', 'filtroData', 'filtroLetra', 'filtroTurno'].forEach(id => { $(id).value = ''; });
+    aplicarFiltros();
+  });
+
+  /* ---------- Tabelas ---------- */
   function renderizarTabela(lista) {
-    const tbody = document.getElementById('tabelaHistorico');
-    tbody.innerHTML = '';
+    $('contagem').textContent = lista.length === registrosCache.length
+      ? `${lista.length} registro${lista.length === 1 ? '' : 's'}`
+      : `${lista.length} de ${registrosCache.length}`;
 
     if (!lista.length) {
-      tbody.innerHTML = `<tr><td colspan="9">Nenhum registro encontrado.</td></tr>`;
+      tbody.innerHTML = linhaVazia(9, 'Nenhum registro encontrado.');
       return;
     }
 
-    lista.forEach(reg => {
-      tbody.innerHTML += `
-        <tr>
-          <td>${reg.dataBR || formatarDataBR(reg.data) || ''}</td>
-          <td><span class="op-link" onclick="abrirDetalhesOP('${String(reg.op).replace(/'/g, "\\'")}')">${reg.op || ''}</span></td>
-          <td>${reg.matricula || ''}</td>
-          <td>${reg.nome || ''}</td>
-          <td>Letra ${reg.letra || ''} - ${reg.turno || ''}</td>
-          <td>${reg.centroTrabalho || ''}</td>
-          <td>${reg.updatedBy || reg.createdBy || ''}</td>
-          <td>${formatarDataHora(reg.updatedAt || reg.createdAt)}</td>
-          <td>
-            <div class="actions-inline">
-              <button class="small-btn" onclick="abrirDetalhesRegistro('${reg.id}')">Ver</button>
-              ${supervisorLogado ? `<button class="small-btn orange" onclick="abrirEdicao('${reg.id}')">Editar</button>` : ''}
-              ${supervisorLogado ? `<button class="small-btn red" onclick="excluirRegistro('${reg.id}')">Excluir</button>` : ''}
-            </div>
-          </td>
-        </tr>
-      `;
-    });
+    tbody.innerHTML = lista.map(reg => `
+      <tr>
+        <td data-label="Data">${esc(reg.dataBR || formatarDataBR(reg.data))}</td>
+        <td data-label="OP"><button type="button" class="link-op" data-op="${esc(reg.op)}">${esc(reg.op)}</button></td>
+        <td data-label="Matrícula">${esc(reg.matricula)}</td>
+        <td data-label="Operador" class="td-forte">${esc(reg.nome)}</td>
+        <td data-label="Turno">${chipTurno(reg.turno, reg.letra)}</td>
+        <td data-label="Centro de trab.">${esc(reg.centroTrabalho)}</td>
+        <td data-label="Editado por">${esc(reg.updatedBy || reg.createdBy)}</td>
+        <td data-label="Alteração" class="td-suave">${esc(formatarDataHora(reg.updatedAt || reg.createdAt))}</td>
+        <td data-label="Ações">
+          <div class="acoes">
+            <button type="button" class="btn-sm" data-ver="${esc(reg.id)}">Ver</button>
+            ${supervisorLogado ? `
+              <button type="button" class="btn-sm laranja" data-editar="${esc(reg.id)}">Editar</button>
+              <button type="button" class="btn-sm vermelho" data-excluir="${esc(reg.id)}">Excluir</button>` : ''}
+          </div>
+        </td>
+      </tr>
+    `).join('');
   }
 
-  function renderizarExclusoes(lista) {
-    const tbody = document.getElementById('tabelaExclusoes');
-    tbody.innerHTML = '';
-
-    if (!lista.length) {
-      tbody.innerHTML = `<tr><td colspan="4">Nenhuma exclusão registrada.</td></tr>`;
+  function renderizarExclusoes() {
+    const corpo = $('tabelaExclusoes');
+    if (!exclusoesCache.length) {
+      corpo.innerHTML = linhaVazia(4, 'Nenhuma exclusão registrada.');
       return;
     }
-
-    lista.slice(0, 10).forEach(item => {
-      tbody.innerHTML += `
-        <tr>
-          <td>${formatarDataHora(item.deletedAt)}</td>
-          <td>${item.op || ''}</td>
-          <td>${item.nome || ''}</td>
-          <td>${item.deletedBy || ''}</td>
-        </tr>
-      `;
-    });
+    corpo.innerHTML = exclusoesCache.slice(0, 10).map(item => `
+      <tr>
+        <td data-label="Data da exclusão" class="td-suave">${esc(formatarDataHora(item.deletedAt))}</td>
+        <td data-label="OP" class="td-forte">${esc(item.op)}</td>
+        <td data-label="Operador">${esc(item.nome)}</td>
+        <td data-label="Excluído por">${esc(item.deletedBy)}</td>
+      </tr>
+    `).join('');
   }
 
-  window.aplicarFiltros = function() {
-    const dataFiltro = document.getElementById('filtroData').value;
-    const letraFiltro = document.getElementById('filtroLetra').value;
-    const turnoFiltro = document.getElementById('filtroTurno').value;
+  tbody.addEventListener('click', e => {
+    const b = e.target.closest('button');
+    if (!b) return;
+    const d = b.dataset;
+    if ('ver' in d) abrirDetalhesRegistro(d.ver);
+    else if ('op' in d) abrirDetalhesOP(d.op);
+    else if ('editar' in d) abrirEdicao(d.editar);
+    else if ('excluir' in d) excluirRegistro(d.excluir, b);
+  });
 
-    let filtrados = [...registrosCache];
-
-    if (dataFiltro) {
-      filtrados = filtrados.filter(reg => reg.data === dataFiltro);
-    }
-
-    if (letraFiltro) {
-      filtrados = filtrados.filter(reg => reg.letra === letraFiltro);
-    }
-
-    if (turnoFiltro) {
-      filtrados = filtrados.filter(reg => reg.turno === turnoFiltro);
-    }
-
-    renderizarTabela(filtrados);
-  };
-
-  window.abrirDetalhesRegistro = function(id) {
+  /* ---------- Detalhes ---------- */
+  function abrirDetalhesRegistro(id) {
     const reg = registrosCache.find(r => r.id === id);
     if (!reg) return;
+    $('tituloModalOp').innerHTML = `Detalhes da OP <span>${esc(reg.op)}</span>`;
+    $('conteudoModalOp').innerHTML = htmlDetalhe(reg, { auditoria: true });
+    abrirModal('modalOp');
+  }
 
-    const conteudo = document.getElementById('conteudoModalOp');
-    const titulo = document.getElementById('tituloModalOp');
+  function abrirDetalhesOP(op) {
+    const lista = registrosCache.filter(r => r.op === op);
+    $('tituloModalOp').innerHTML = `OP <span>${esc(op)}</span> · ${lista.length} registro${lista.length === 1 ? '' : 's'}`;
+    $('conteudoModalOp').innerHTML = lista.length
+      ? lista.map(r => htmlDetalhe(r, { auditoria: true })).join('')
+      : '<div class="sem-foto">Nenhum detalhe encontrado para esta OP.</div>';
+    abrirModal('modalOp');
+  }
 
-    titulo.textContent = `DETALHES DA OP ${reg.op || ''}`;
+  /* ---------- Supervisor ---------- */
+  function atualizarStatus() {
+    $('statusBox').classList.toggle('logado', supervisorLogado);
+    $('statusIcone').innerHTML = supervisorLogado ? ICONE_ESCUDO : ICONE_CADEADO;
+    $('statusTitulo').textContent = supervisorLogado ? 'Supervisor autenticado' : 'Modo consulta';
+    $('statusTexto').textContent = supervisorLogado
+      ? 'Edição e exclusão de registros liberadas.'
+      : 'Faça login como supervisor para editar ou excluir registros.';
+    $('btnSupervisor').textContent = supervisorLogado ? 'Sair' : 'Login supervisor';
+    $('btnSupervisor').className = supervisorLogado ? 'btn btn-sec' : 'btn';
+  }
 
-    conteudo.innerHTML = `
-      <div class="op-card">
-        <div class="op-card-header">${reg.nome || ''}</div>
-
-        <div class="op-grid">
-          <div class="op-item"><strong>Matrícula</strong><span>${reg.matricula || ''}</span></div>
-          <div class="op-item"><strong>Data</strong><span>${reg.dataBR || formatarDataBR(reg.data) || ''}</span></div>
-          <div class="op-item"><strong>Turno</strong><span>Letra ${reg.letra || ''} - ${reg.turno || ''}</span></div>
-          <div class="op-item"><strong>Centro de Trab.</strong><span>${reg.centroTrabalho || ''}</span></div>
-          <div class="op-item"><strong>OP</strong><span>${reg.op || ''}</span></div>
-          <div class="op-item"><strong>Última edição por</strong><span>${reg.updatedBy || reg.createdBy || ''}</span></div>
-        </div>
-
-        <div class="descricao-box">
-          <strong>Descrição da Atividade</strong>
-          <div>${reg.descricao || ''}</div>
-        </div>
-
-        <div class="descricao-box">
-          <strong>Última alteração</strong>
-          <div>${formatarDataHora(reg.updatedAt || reg.createdAt)}</div>
-        </div>
-
-        <div class="foto-box">
-          ${
-            reg.foto
-              ? `<img src="${reg.foto}" alt="Foto do turno">`
-              : `<div class="sem-foto">Nenhuma foto anexada neste registro.</div>`
-          }
-        </div>
-      </div>
-    `;
-
-    document.getElementById('modalOp').style.display = 'flex';
-  };
-
-  window.abrirDetalhesOP = function(op) {
-    const registros = registrosCache.filter(reg => reg.op === op);
-    const titulo = document.getElementById('tituloModalOp');
-    const conteudo = document.getElementById('conteudoModalOp');
-
-    titulo.textContent = `DETALHES DA OP ${op}`;
-    conteudo.innerHTML = '';
-
-    if (!registros.length) {
-      conteudo.innerHTML = '<div class="sem-foto">Nenhum detalhe encontrado para esta OP.</div>';
-      document.getElementById('modalOp').style.display = 'flex';
+  $('btnSupervisor').addEventListener('click', () => {
+    if (supervisorLogado) {
+      supervisorLogado = false;
+      atualizarStatus();
+      aplicarFiltros();
+      toast('Sessão de supervisor encerrada.');
       return;
     }
+    $('formLoginSupervisor').reset();
+    $('erroSupervisor').classList.remove('visivel');
+    abrirModal('modalLoginSupervisor');
+  });
 
-    registros.forEach(reg => {
-      const card = document.createElement('div');
-      card.className = 'op-card';
+  $('formLoginSupervisor').addEventListener('submit', e => {
+    e.preventDefault();
+    const usuario = $('usuarioSupervisor').value.trim();
+    const senha = $('senhaSupervisor').value.trim();
 
-      card.innerHTML = `
-        <div class="op-card-header">${reg.nome || ''}</div>
-
-        <div class="op-grid">
-          <div class="op-item"><strong>Matrícula</strong><span>${reg.matricula || ''}</span></div>
-          <div class="op-item"><strong>Data</strong><span>${reg.dataBR || formatarDataBR(reg.data) || ''}</span></div>
-          <div class="op-item"><strong>Turno</strong><span>Letra ${reg.letra || ''} - ${reg.turno || ''}</span></div>
-          <div class="op-item"><strong>Centro de Trab.</strong><span>${reg.centroTrabalho || ''}</span></div>
-          <div class="op-item"><strong>Última edição por</strong><span>${reg.updatedBy || reg.createdBy || ''}</span></div>
-          <div class="op-item"><strong>Última alteração</strong><span>${formatarDataHora(reg.updatedAt || reg.createdAt)}</span></div>
-        </div>
-
-        <div class="descricao-box">
-          <strong>Descrição da Atividade</strong>
-          <div>${reg.descricao || ''}</div>
-        </div>
-
-        <div class="foto-box">
-          ${
-            reg.foto
-              ? `<img src="${reg.foto}" alt="Foto do turno">`
-              : `<div class="sem-foto">Nenhuma foto anexada neste registro.</div>`
-          }
-        </div>
-      `;
-
-      conteudo.appendChild(card);
-    });
-
-    document.getElementById('modalOp').style.display = 'flex';
-  };
-
-  window.abrirLoginSupervisor = function() {
-    document.getElementById('modalLoginSupervisor').style.display = 'flex';
-    document.getElementById('erroSupervisor').style.display = 'none';
-    document.getElementById('usuarioSupervisor').value = '';
-    document.getElementById('senhaSupervisor').value = '';
-  };
-
-  window.entrarSupervisor = function() {
-    const usuario = document.getElementById('usuarioSupervisor').value.trim();
-    const senha = document.getElementById('senhaSupervisor').value.trim();
-
-    if (usuario === 'Supervisor' && senha === 'Supervisor') {
+    if (validarSupervisor(usuario, senha)) {
       supervisorLogado = true;
-      document.getElementById('modalLoginSupervisor').style.display = 'none';
-      document.getElementById('statusSupervisor').textContent = 'Supervisor autenticado';
-      renderizarTabela(registrosCache);
+      fecharModal('modalLoginSupervisor');
+      atualizarStatus();
+      aplicarFiltros();
+      toast('Supervisor autenticado.');
     } else {
-      document.getElementById('erroSupervisor').style.display = 'block';
+      mostrarErro($('erroSupervisor'));
     }
-  };
+  });
 
-  window.abrirEdicao = function(id) {
+  /* ---------- Edição ---------- */
+  function abrirEdicao(id) {
     if (!supervisorLogado) return;
-
     const reg = registrosCache.find(r => r.id === id);
     if (!reg) return;
 
     registroEmEdicao = id;
+    $('editMatricula').value = reg.matricula || '';
+    $('editNome').value = reg.nome || '';
+    $('editOp').value = reg.op || '';
+    $('editData').value = reg.data || '';
+    $('editTurno').value = reg.turno || 'Manhã (06:00 - 18:00)';
+    $('editLetra').value = reg.letra || 'A';
+    $('editCentro').value = reg.centroTrabalho || 'Pre_mont';
+    $('editDescricao').value = reg.descricao || '';
+    abrirModal('modalEditar');
+  }
 
-    document.getElementById('editMatricula').value = reg.matricula || '';
-    document.getElementById('editNome').value = reg.nome || '';
-    document.getElementById('editOp').value = reg.op || '';
-    document.getElementById('editData').value = reg.data || '';
-    document.getElementById('editTurno').value = reg.turno || 'Manhã (06:00 - 18:00)';
-    document.getElementById('editLetra').value = reg.letra || 'A';
-    document.getElementById('editCentro').value = reg.centroTrabalho || 'Pre_mont';
-    document.getElementById('editDescricao').value = reg.descricao || '';
-
-    document.getElementById('modalEditar').style.display = 'flex';
-  };
-
-  window.salvarEdicao = async function() {
+  $('formEditar').addEventListener('submit', async e => {
+    e.preventDefault();
     if (!registroEmEdicao || !supervisorLogado) return;
 
-    try {
-      const dataISO = document.getElementById('editData').value;
+    const botao = $('btnSalvarEdicao');
+    carregando(botao, true, 'Salvando…');
 
-      const payload = {
-        matricula: document.getElementById('editMatricula').value.trim(),
-        nome: document.getElementById('editNome').value.trim(),
-        op: document.getElementById('editOp').value.trim(),
+    try {
+      const dataISO = $('editData').value;
+      await updateDoc(doc(db, "turnos", registroEmEdicao), {
+        matricula: $('editMatricula').value.trim(),
+        nome: $('editNome').value.trim(),
+        op: $('editOp').value.trim(),
         data: dataISO,
         dataBR: formatarDataBR(dataISO),
-        turno: document.getElementById('editTurno').value,
-        letra: document.getElementById('editLetra').value,
-        centroTrabalho: document.getElementById('editCentro').value,
-        descricao: document.getElementById('editDescricao').value.trim(),
+        turno: $('editTurno').value,
+        letra: $('editLetra').value,
+        centroTrabalho: $('editCentro').value,
+        descricao: $('editDescricao').value.trim(),
         updatedBy: "Supervisor",
         updatedAt: Date.now()
-      };
+      });
 
-      await updateDoc(doc(db, "turnos", registroEmEdicao), payload);
-
-      document.getElementById('modalEditar').style.display = 'none';
+      fecharModal('modalEditar');
       registroEmEdicao = null;
+      toast('Registro editado com sucesso.');
       await carregarHistorico();
-      alert('Registro editado com sucesso.');
     } catch (error) {
       console.error(error);
-      alert('Erro ao editar o registro.');
+      toast('Erro ao editar o registro.', 'erro');
+    } finally {
+      carregando(botao, false);
     }
-  };
+  });
 
-  window.excluirRegistro = async function(id) {
+  /* ---------- Exclusão ---------- */
+  async function excluirRegistro(id, botao) {
     if (!supervisorLogado) return;
-
     const reg = registrosCache.find(r => r.id === id);
     if (!reg) return;
 
-    const confirmar = confirm(`Deseja realmente excluir o registro da OP ${reg.op}?`);
-    if (!confirmar) return;
+    if (!confirm(`Deseja realmente excluir o registro da OP ${reg.op}?`)) return;
 
+    carregando(botao, true, 'Excluindo…');
     try {
       await addDoc(collection(db, "auditoria_exclusoes"), {
         registroId: id,
@@ -853,46 +502,18 @@
         deletedBy: "Supervisor",
         deletedAt: Date.now()
       });
-
       await deleteDoc(doc(db, "turnos", id));
+      toast('Registro excluído com sucesso.');
       await carregarHistorico();
-      alert('Registro excluído com sucesso.');
     } catch (error) {
       console.error(error);
-      alert('Erro ao excluir o registro.');
+      toast('Erro ao excluir o registro.', 'erro');
+      carregando(botao, false);
     }
-  };
+  }
 
-  window.fecharModalOp = function() {
-    document.getElementById('modalOp').style.display = 'none';
-  };
-
-  window.fecharModalHistorico = function(id) {
-    document.getElementById(id).style.display = 'none';
-  };
-
+  atualizarStatus();
   carregarHistorico();
 </script>
-
-<script>
-  function abrirSobre() {
-    document.getElementById('modalSobre').style.display = 'flex';
-  }
-
-  function abrirContato() {
-    document.getElementById('modalContato').style.display = 'flex';
-  }
-
-  window.addEventListener('click', function(event) {
-    const ids = ['modalOp', 'modalLoginSupervisor', 'modalEditar', 'modalSobre', 'modalContato'];
-    ids.forEach(id => {
-      const modal = document.getElementById(id);
-      if (event.target === modal) {
-        modal.style.display = 'none';
-      }
-    });
-  });
-</script>
-
 </body>
 </html>
